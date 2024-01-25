@@ -7,7 +7,7 @@ class UserManager(BaseUserManager):
 
     def _create_user(self, phone_number=None, email=None, password=None,
                      username=None, **extra_fields):
-        if not (phone_number or not email or username):
+        if not (phone_number or email or username):
             raise ParseError(
                 "Укажите email, имя пользователя и номер телефона"
             )
@@ -25,23 +25,24 @@ class UserManager(BaseUserManager):
             user.email = email
         if phone_number:
             user.phone_number = phone_number
+
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, phone_number=None, email=None, username=None,
-                    password=None, **extra_fields):
+    def create_user(self, phone_number=None, email=None,
+                    password=None, username=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         extra_fields.setdefault("is_active", True)
-        return self._create_user(phone_number, email, username, password,
+        return self._create_user(phone_number, email, password, username,
                                  **extra_fields)
 
-    def create_superuser(self, phone_number=None, email=None, username=None,
-                         password=None, **extra_fields):
+    def create_superuser(self, phone_number=None, email=None,
+                         password=None, username=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
 
-        return self._create_user(phone_number, email, username, password,
+        return self._create_user(phone_number, email, password, username,
                                  **extra_fields)

@@ -11,42 +11,42 @@ User = get_user_model()
 class RegisterSerializer(ExtendedModelSerializerMixin):
     email = serializers.EmailField()
     password = serializers.CharField(
-        style={'input_type': 'password'}, write_only=True
+        style={'input_style': 'password'},
+        write_only=True
     )
 
     class Meta:
         model = User
         fields = (
             'id',
-            'email',
             'first_name',
             'last_name',
             'username',
+            'email',
             'password'
         )
 
     @staticmethod
-    def _validate_username_email(value: str):
+    def _validate_username_or_email(value):
         username_or_email = value.lower()
         if User.objects.filter(email=username_or_email).exists():
             raise ParseError(
-                f"Пользователь  с {username_or_email} уже существует"
-            )
+                f"Пользователь c {username_or_email} уже существует")
         return username_or_email
 
+    def validated_username(self, value):
+        return self._validate_username_or_email(value)
+
     def validate_email(self, value):
-        return self._validate_username_email(value)
-
-    def validate_username(self, value):
-        return self._validate_username_email(value)
-
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
+        return self._validate_username_or_email(value)
 
     def validate_password(self, value):
         validate_password(value)
         return value
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
 
 
 class ChangePasswordSerializer(ExtendedModelSerializerMixin):

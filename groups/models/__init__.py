@@ -1,5 +1,6 @@
-from .groups import Group
+from .groups import Group, Employee
 
 __all__ = (
     'Group',
+    'Employee',
 )
