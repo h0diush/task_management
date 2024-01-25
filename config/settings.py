@@ -36,6 +36,8 @@ LOCAL_APPS = [
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
     'common.apps.CommonConfig',
+    'groups.apps.GroupsConfig',
+    'works.apps.WorksConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
