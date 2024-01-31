@@ -3,6 +3,7 @@ from crum import get_current_user
 from common.serializers.mixins import ExtendedModelSerializerMixin
 from groups.models import Group
 from users.serializers.nested.users import UserShortSerializer
+from works.serializers.nested.jobs import JobShortSerializer
 
 
 class GroupCreateSerializer(ExtendedModelSerializerMixin):
@@ -19,9 +20,15 @@ class GroupCreateSerializer(ExtendedModelSerializerMixin):
 
 class GroupRetrieveSerializer(ExtendedModelSerializerMixin):
     administrator = UserShortSerializer()
+    employees = UserShortSerializer(many=True)
+    jobs = JobShortSerializer()
 
     class Meta:
         model = Group
-        fields = ('name', 'administrator', 'jobs', 'employees')
+        fields = ('name', 'administrator', 'employees', 'jobs')
 
 
+class GroupUpdateSerializer(ExtendedModelSerializerMixin):
+    class Meta:
+        model = Group
+        fields = ('id', 'name')

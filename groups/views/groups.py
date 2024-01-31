@@ -2,9 +2,9 @@ from drf_spectacular.utils import extend_schema_view, extend_schema
 
 from common.views.mixins import CRUMixin
 from groups.models import Group
-from groups.permissions import IsOwnerPermission
+from groups.permissions import IsAdministratorOrEmployeesPermission
 from groups.serializers.api.groups import GroupCreateSerializer, \
-    GroupRetrieveSerializer
+    GroupRetrieveSerializer, GroupUpdateSerializer
 
 
 @extend_schema_view(
@@ -21,12 +21,11 @@ from groups.serializers.api.groups import GroupCreateSerializer, \
 )
 class GroupsView(CRUMixin):
     queryset = Group.objects.all()
-    serializer_class = GroupCreateSerializer
-    permission_classes = [IsOwnerPermission]
+    permission_classes = [IsAdministratorOrEmployeesPermission]
     http_method_names = ['get', 'post', 'patch']
 
-    def get_serializer_class(self):
-        if self.action == "create":
-            return GroupCreateSerializer
-        if self.action == "retrieve":
-            return GroupRetrieveSerializer
+    multi_serializer_class = {
+        'create': GroupCreateSerializer,
+        'retrieve': GroupRetrieveSerializer,
+        'partial_update': GroupUpdateSerializer
+    }
