@@ -13,9 +13,8 @@ class Group(models.Model):
                                        verbose_name="Работники группы",
                                        related_name='groups_employee',
                                        blank=True, through='Employee')
-    jobs = models.ForeignKey('works.Job', on_delete=models.CASCADE,
-                             verbose_name="Работа", related_name='groups',
-                             null=True, blank=True)
+    jobs = models.ManyToManyField('works.Job', verbose_name="Работа",
+                                  related_name='group_jobs', blank=True)
 
     class Meta:
         verbose_name = "Группа"

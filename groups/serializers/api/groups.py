@@ -21,7 +21,7 @@ class GroupCreateSerializer(ExtendedModelSerializerMixin):
 class GroupRetrieveSerializer(ExtendedModelSerializerMixin):
     administrator = UserShortSerializer()
     employees = UserShortSerializer(many=True)
-    jobs = JobShortSerializer()
+    jobs = JobShortSerializer(many=True)
 
     class Meta:
         model = Group
@@ -31,4 +31,4 @@ class GroupRetrieveSerializer(ExtendedModelSerializerMixin):
 class GroupUpdateSerializer(ExtendedModelSerializerMixin):
     class Meta:
         model = Group
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'jobs')
