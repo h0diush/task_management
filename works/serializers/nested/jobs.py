@@ -9,5 +9,5 @@ class JobShortSerializer(ExtendedModelSerializerMixin):
     class Meta:
         model = Job
         fields = (
-            'deadline', 'name', 'description', 'created_by',
+            'id', 'deadline', 'name', 'description', 'created_by',
             'updated_by', 'task')

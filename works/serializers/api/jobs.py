@@ -5,9 +5,12 @@ from rest_framework.exceptions import ParseError
 from common.serializers.mixins import ExtendedModelSerializerMixin
 from groups.models import Group
 from works.models import Job
+from works.serializers.nested.tasks import TaskShortSerializer
 
 
 class JobRetrieveSerializer(ExtendedModelSerializerMixin):
+    task = TaskShortSerializer(many=True)
+
     class Meta:
         model = Job
         fields = ('id', 'name', 'description', 'created_by', 'task')
@@ -47,6 +50,7 @@ class JobDeleteSerializer(ExtendedModelSerializerMixin):
 
 
 class JobListSerializer(ExtendedModelSerializerMixin):
+    task = TaskShortSerializer(many=True)
     class Meta:
         model = Job
         fields = '__all__'

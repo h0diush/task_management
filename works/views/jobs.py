@@ -36,7 +36,6 @@ class JobViewSet(LCRUDMixin):
         'list': JobListSerializer,
         'destroy': JobDeleteSerializer
     }
-    # queryset = Job.objects.all()
     permission_classes = [IsAuthenticated]
     http_method_names = ['post', 'get', 'patch', 'delete']
     lookup_url_kwarg = 'job_id'
