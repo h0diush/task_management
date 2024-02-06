@@ -1,5 +1,4 @@
-from rest_framework.permissions import BasePermission
-import bdb
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class IsCreatedByWork(BasePermission):
@@ -15,5 +14,7 @@ class CreateTaskPermission(BasePermission):
         user = request.user
         if user.groups_administrator.filter(jobs__id=job_id).exists():
             return True
+        if request.method in SAFE_METHODS:
+            return request.user.groups_employee.filter(
+                jobs__id=job_id).exists()
         return False
-

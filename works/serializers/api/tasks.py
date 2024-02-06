@@ -16,6 +16,15 @@ class TaskCreateSerializer(ExtendedModelSerializerMixin):
         job = Job.objects.filter(pk=job_id, created_by=user).first()
         return job
 
+    def validate(self, attrs):
+        user = get_current_user()
+        doer = attrs['doer']
+        group = user.groups_administrator.filter(jobs=self._get_job()).first()
+        if not group.employees_info.filter(user=doer).exists():
+            raise ParseError(
+                detail="Данный пользователь не является сотрудником группы")
+        return attrs
+
     def create(self, validated_data):
         job = self._get_job()
         if not job:
@@ -24,3 +33,22 @@ class TaskCreateSerializer(ExtendedModelSerializerMixin):
         instance = super(TaskCreateSerializer, self).create(validated_data)
         job.task.add(instance)
         return instance
+
+
+class TaskListSerializer(ExtendedModelSerializerMixin):
+    class Meta:
+        model = Task
+        fields = (
+            'id', 'name', 'description', 'status', 'doer', 'created_by', 'job')
+
+
+class TaskDetailSerializer(ExtendedModelSerializerMixin):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+
+class TaskDestroySerializer(ExtendedModelSerializerMixin):
+    class Meta:
+        model = Task
+        fields = ('id',)
