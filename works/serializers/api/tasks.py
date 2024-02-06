@@ -39,7 +39,7 @@ class TaskListSerializer(ExtendedModelSerializerMixin):
     class Meta:
         model = Task
         fields = (
-            'id', 'name', 'description', 'status', 'doer', 'created_by', 'job')
+            'id', 'name', 'description', 'status', 'doer', 'created_by')
 
 
 class TaskDetailSerializer(ExtendedModelSerializerMixin):
@@ -52,3 +52,15 @@ class TaskDestroySerializer(ExtendedModelSerializerMixin):
     class Meta:
         model = Task
         fields = ('id',)
+
+
+class TaskUpdateSerializer(ExtendedModelSerializerMixin):
+    class Meta:
+        model = Task
+        fields = ('doer', 'name', 'description',)
+
+
+class TaskUpdateStatusSerializer(ExtendedModelSerializerMixin):
+    class Meta:
+        model = Task
+        fields = ('status',)

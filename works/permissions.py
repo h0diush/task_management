@@ -18,3 +18,10 @@ class CreateTaskPermission(BasePermission):
             return request.user.groups_employee.filter(
                 jobs__id=job_id).exists()
         return False
+
+
+class UpdateStatusTaskPermission(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if obj.created_by == request.user:
+            return True
+        return False

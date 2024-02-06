@@ -50,7 +50,6 @@ class JobDeleteSerializer(ExtendedModelSerializerMixin):
 
 
 class JobListSerializer(ExtendedModelSerializerMixin):
-    task = TaskShortSerializer(many=True)
     class Meta:
         model = Job
-        fields = '__all__'
+        fields = ('id', 'name', 'description', 'deadline', 'created_by')
