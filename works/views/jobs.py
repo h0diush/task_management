@@ -24,7 +24,7 @@ from works.serializers.api.jobs import JobRetrieveSerializer, \
         tags=["Работа"]
     ),
     list=extend_schema(
-        summary="Список Задач",
+        summary="Список работ",
         tags=["Работа"]
     ),
 )

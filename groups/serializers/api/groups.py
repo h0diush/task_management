@@ -1,4 +1,5 @@
 from crum import get_current_user
+from rest_framework import serializers
 
 from common.serializers.mixins import ExtendedModelSerializerMixin
 from groups.models import Group
@@ -22,10 +23,15 @@ class GroupRetrieveSerializer(ExtendedModelSerializerMixin):
     administrator = UserShortSerializer()
     employees = UserShortSerializer(many=True)
     jobs = JobShortSerializer(many=True)
+    count_employees = serializers.IntegerField()
+    count_jobs = serializers.IntegerField()
 
     class Meta:
         model = Group
-        fields = ('name', 'administrator', 'employees', 'jobs')
+        fields = (
+            'name', 'administrator', 'employees', 'jobs', 'count_employees',
+            'count_jobs'
+        )
 
 
 class GroupUpdateSerializer(ExtendedModelSerializerMixin):

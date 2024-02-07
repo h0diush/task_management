@@ -15,13 +15,13 @@ class CreateTaskPermission(BasePermission):
         if user.groups_administrator.filter(jobs__id=job_id).exists():
             return True
         if request.method in SAFE_METHODS:
-            return request.user.groups_employee.filter(
+            return user.groups_employee.filter(
                 jobs__id=job_id).exists()
         return False
 
 
 class UpdateStatusTaskPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
-        if obj.created_by == request.user:
+        if obj.created_by == request.user or obj.doer == request.user:
             return True
         return False

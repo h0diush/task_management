@@ -29,7 +29,6 @@ from groups.serializers.api.employees import EmployeeCreateSerializer, \
     ),
 )
 class EmployeesView(LCRUDMixin):
-    queryset = Employee.objects.all()
     multi_serializer_class = {
         'create': EmployeeCreateSerializer,
         'retrieve': EmployeeRetrieveSerializer,
@@ -40,3 +39,7 @@ class EmployeesView(LCRUDMixin):
     permission_classes = [IsAdministrator]
     http_method_names = ['get', 'post', 'patch', 'delete']
     lookup_url_kwarg = 'employee_id'
+
+    def get_queryset(self):
+        qs = Employee.objects.all().select_related('user')
+        return qs

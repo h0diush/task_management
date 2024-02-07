@@ -13,6 +13,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = env.str("ALLOWED_HOSTS").split(" ")
+INTERNAL_IPS = ["127.0.0.1"]
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -29,7 +30,8 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'phonenumber_field',
     'corsheaders',
-    'djoser'
+    'djoser',
+    'debug_toolbar',
 ]
 
 LOCAL_APPS = [
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'crum.CurrentRequestUserMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'

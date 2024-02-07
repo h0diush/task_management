@@ -48,7 +48,8 @@ class TaskView(LCRUDMixin):
     permission_classes = [CreateTaskPermission]
 
     def get_queryset(self):
-        qs = Task.objects.filter(job__id=self.kwargs['pk'])
+        qs = Task.objects.filter(job__id=self.kwargs['pk']).select_related(
+            'doer', 'job')
         return qs
 
     @action(detail=True, methods=['post'],

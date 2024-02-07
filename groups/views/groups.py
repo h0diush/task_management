@@ -1,10 +1,13 @@
+from django.db.models import Prefetch, Count
 from drf_spectacular.utils import extend_schema_view, extend_schema
 
 from common.views.mixins import CRUMixin
-from groups.models import Group
+from groups.models import Group, Employee
 from groups.permissions import IsAdministratorOrEmployeesPermission
 from groups.serializers.api.groups import GroupCreateSerializer, \
     GroupRetrieveSerializer, GroupUpdateSerializer
+from users.models import User
+from works.models import Task, Job
 
 
 @extend_schema_view(
@@ -20,7 +23,6 @@ from groups.serializers.api.groups import GroupCreateSerializer, \
                                  tags=["Группы"]),
 )
 class GroupsView(CRUMixin):
-    queryset = Group.objects.all()
     permission_classes = [IsAdministratorOrEmployeesPermission]
     http_method_names = ['get', 'post', 'patch']
 
@@ -29,3 +31,14 @@ class GroupsView(CRUMixin):
         'retrieve': GroupRetrieveSerializer,
         'partial_update': GroupUpdateSerializer
     }
+
+    def get_queryset(self):
+        qs = Group.objects.all().select_related(
+            'administrator'
+        ).prefetch_related(
+            'employees', 'jobs'
+        ).annotate(
+            count_employees=Count('employees', distinct=True),
+            count_jobs=Count('jobs', distinct=True)
+        )
+        return qs
