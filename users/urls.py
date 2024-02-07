@@ -1,11 +1,10 @@
-from django.urls import path, include
-# from rest_framework.routers import DefaultRouter
-from users.views.users import RegistrationView
+from django.urls import path
 
-# router = DefaultRouter()
+from users.views.users import RegistrationView, MeView, ChangePasswordView
 
 urlpatterns = [
     path('users/reg/', RegistrationView.as_view(), name='reg'),
+    path('users/me/', MeView.as_view(), name='me'),
+    path('users/change_password/', ChangePasswordView.as_view(),
+         name='change-password'),
 ]
-
-# urlpatterns += router.urls

@@ -1,5 +1,4 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema
-from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -8,7 +7,7 @@ from works.models import Task
 from works.permissions import CreateTaskPermission, UpdateStatusTaskPermission
 from works.serializers.api.tasks import TaskCreateSerializer, \
     TaskListSerializer, TaskDetailSerializer, TaskDestroySerializer, \
-    TaskUpdateSerializer, TaskUpdateStatusSerializer
+    TaskUpdateStatusSerializer
 
 
 @extend_schema_view(

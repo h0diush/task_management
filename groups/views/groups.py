@@ -1,13 +1,11 @@
-from django.db.models import Prefetch, Count
+from django.db.models import Count
 from drf_spectacular.utils import extend_schema_view, extend_schema
 
 from common.views.mixins import CRUMixin
-from groups.models import Group, Employee
+from groups.models import Group
 from groups.permissions import IsAdministratorOrEmployeesPermission
 from groups.serializers.api.groups import GroupCreateSerializer, \
     GroupRetrieveSerializer, GroupUpdateSerializer
-from users.models import User
-from works.models import Task, Job
 
 
 @extend_schema_view(

@@ -72,3 +72,30 @@ class ChangePasswordSerializer(ExtendedModelSerializerMixin):
         instance.set_password(password)
         instance.save()
         return instance
+
+
+class MeListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'username',
+            'phone_number',
+            'date_joined'
+        )
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'username',
+            'phone_number',
+        )
